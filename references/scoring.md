@@ -107,6 +107,26 @@ Suggested interpretation:
 - `4-6`: repeated recomposition or lazy-list issues
 - `0-3`: serious, widespread performance problems or unsafe state-write patterns
 
+#### Measured Ceilings (apply when compiler reports are available)
+
+Compiler reports generated in Step 4 give hard numbers. When present, apply these ceilings *after* qualitative scoring — a category cannot exceed the cap even if qualitative evidence is strong. Report the applied ceiling in the Performance section so the score is auditable.
+
+Let `skippable%` = `skippableComposables / restartableComposables` from `*-module.json` across all audited modules (weighted by composable count, not simple average).
+
+| Condition | Ceiling |
+|-----------|---------|
+| `skippable%` ≥ 95% and zero unstable classes used as shared/reusable composable params | no cap (9-10 possible) |
+| `skippable%` ≥ 85% and ≤3 unstable classes used as shared/reusable composable params | cap at 8 |
+| `skippable%` 70-85% or 4-7 unstable classes used as params | cap at 6 |
+| `skippable%` 50-70% or ≥8 unstable classes used as params | cap at 4 |
+| `skippable%` < 50% | cap at 3 |
+| Strong Skipping disabled on a Kotlin 2.0.20+ project without written justification | cap at 4 |
+| `@NonSkippableComposable` / `@DontMemoize` used on hot-path composables without justification | cap at 5 |
+
+When compiler reports are **not** available (Step 4 failed, `Compiler diagnostics used: no`), ceilings do not apply — rely on source-inferred judgment, but cap any Performance score at 7 to reflect reduced confidence.
+
+If a non-trivial subset of modules failed to build (partial reports), state which modules contributed and treat `skippable%` as a floor estimate rather than a ground truth.
+
 ### State Management
 
 Reward:
