@@ -149,8 +149,8 @@ Do **not** ask the user to edit `build.gradle` or run commands themselves. The s
 
    From these files, extract:
    - **unstable classes** (lines starting with `unstable class ` in `*-classes.txt`) used as composable parameters
-   - **non-skippable but restartable composables** (`skippable = false` + `restartable = true`) in `*-composables.txt`
-   - **module-wide skippability counts** from `*-module.json` — cite these in the Performance section
+   - **non-skippable but restartable named composables** (ignore zero-argument lambdas; focus on actual named functions in `*-composables.txt` or `*-composables.csv` where `isLambda == "0"`)
+   - **module-wide skippability counts** from `*-module.json`, AND compute the **named-only skippability** from `*-composables.csv` (by filtering out rows where `isLambda == "1"` and calculating `sum(skippable) / sum(restartable)`). Cite both in the Performance section, noting that zero-argument lambdas can artificially anchor the module-wide metric.
 
 6. **Fallback if the build fails or Gradle is unavailable.** Proceed with source-inferred stability findings, but:
    - set `Compiler diagnostics used: no` in the report's Notes And Limits and explain the failure reason briefly (wrapper missing, compile error, timeout)

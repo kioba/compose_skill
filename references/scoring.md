@@ -119,7 +119,8 @@ Suggested interpretation:
 
 Compiler reports generated in Step 4 give hard numbers. When present, apply these ceilings *after* qualitative scoring — a category cannot exceed the cap even if qualitative evidence is strong. Report the applied ceiling in the Performance section so the score is auditable.
 
-Let `skippable%` = `skippableComposables / restartableComposables` from `*-module.json` across all audited modules (weighted by composable count, not simple average).
+Let `skippable%` = `skippableComposables / restartableComposables` from `*-module.json`.
+However, because zero-argument lambdas structurally cannot skip and artificially anchor this overall metric, you MUST also compute the **named-only `skippable%`** from `*-composables.csv` (by filtering out rows where `isLambda == "1"`). Use this **named-only percentage** for the ceiling conditions below, and state the distinction clearly in the report.
 
 | Condition | Ceiling |
 |-----------|---------|
