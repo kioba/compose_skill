@@ -39,17 +39,62 @@ Bands: `0-3` fail · `4-6` needs work · `7-8` solid · `9-10` excellent.
 
 ## Install
 
-Symlink the repo into your skills directory so `git pull` updates everywhere at once:
+### Claude Code Plugin (recommended)
+
+Install via the plugin system for automatic updates:
 
 ```bash
-# Claude Code
-mkdir -p ~/.claude/skills
-ln -s "$(pwd)" ~/.claude/skills/jetpack-compose-audit
+# Add the marketplace
+claude plugin marketplace add hamen/compose_skill
 
-# Cursor
-mkdir -p ~/.cursor/skills
-ln -s "$(pwd)" ~/.cursor/skills/jetpack-compose-audit
+# Install the plugin
+claude plugin install jetpack-compose-audit --scope user
 ```
+
+To enable auto-updates, add to `~/.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "compose-skill": {
+      "source": { "source": "github", "repo": "hamen/compose_skill" },
+      "autoUpdate": true
+    }
+  }
+}
+```
+
+### Local clone
+
+```bash
+git clone https://github.com/hamen/compose_skill.git
+claude plugin add /path/to/compose_skill
+```
+
+### Manual (legacy)
+
+```bash
+mkdir -p ~/.claude/skills
+ln -s "$(pwd)/skills/jetpack-compose-audit" ~/.claude/skills/jetpack-compose-audit
+```
+
+### Cursor
+
+```bash
+mkdir -p ~/.cursor/skills
+ln -s "$(pwd)/skills/jetpack-compose-audit" ~/.cursor/skills/jetpack-compose-audit
+```
+
+### Migrating from a previous install
+
+If you previously symlinked the repo root, update the symlink to point at the `skills/` subdirectory:
+
+```bash
+rm ~/.claude/skills/jetpack-compose-audit
+ln -sfn /path/to/compose_skill/skills/jetpack-compose-audit ~/.claude/skills/jetpack-compose-audit
+```
+
+Or switch to the plugin system (recommended) — see the instructions above.
 
 ---
 
@@ -124,15 +169,22 @@ Top 3 fixes
 ## Layout
 
 ```
-SKILL.md                         main skill manifest (process, principles, output)
-scripts/
-  compose-reports.init.gradle    Gradle init script injected via --init-script
-references/
-  scoring.md                     rubric with measured ceilings and inline citations
-  search-playbook.md             grep patterns, regex, read-the-file heuristics
-  canonical-sources.md           every URL the rubric cites
-  report-template.md             required structure for COMPOSE-AUDIT-REPORT.md
-  diagnostics.md                 manual-mode fallback snippets
+.claude-plugin/
+  marketplace.json               self-marketplace definition
+  plugin.json                    plugin metadata and version
+skills/
+  jetpack-compose-audit/
+    SKILL.md                     main skill manifest (process, principles, output)
+    scripts/
+      compose-reports.init.gradle  Gradle init script injected via --init-script
+    references/
+      scoring.md                 rubric with measured ceilings and inline citations
+      search-playbook.md         grep patterns, regex, read-the-file heuristics
+      canonical-sources.md       every URL the rubric cites
+      report-template.md         required structure for COMPOSE-AUDIT-REPORT.md
+      diagnostics.md             manual-mode fallback snippets
+CHANGELOG.md                     version history
+LICENSE                          MIT
 ```
 
 ---

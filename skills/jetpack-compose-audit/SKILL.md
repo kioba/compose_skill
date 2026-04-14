@@ -3,6 +3,7 @@ name: jetpack-compose-audit
 description: Audit Android Jetpack Compose repositories for performance, state management, side effects, and composable API quality. Scans source code, scores each category from 0-10, writes a strict markdown report, and summarizes the most important fixes. Use when reviewing a Compose codebase, rating repository quality, inspecting recomposition/state issues, or running a Compose audit.
 allowed-tools: Read, Glob, Grep, Write, Bash, Agent
 argument-hint: "[repo path or module path]"
+user-invocable: true
 ---
 
 # Jetpack Compose Audit
@@ -121,7 +122,7 @@ If the repo is large, audit by category or by module. If subagents are available
 
 Do **not** ask the user to edit `build.gradle` or run commands themselves. The skill runs the build with a bundled Gradle init script that injects `reportsDestination` / `metricsDestination` into every Compose module without modifying any file in the target repo. Before scoring, attempt this:
 
-1. **Locate the init script** shipped with the skill: `scripts/compose-reports.init.gradle`. The absolute path is the skill's install location — in most installs that's `~/.claude/skills/jetpack-compose-audit/scripts/compose-reports.init.gradle`. If you cannot resolve the path, fall back to writing the script to `<target>/.compose-audit-reports.init.gradle` and delete it after the run.
+1. **Locate the init script** shipped with the skill: `scripts/compose-reports.init.gradle`. It is a sibling directory to this SKILL.md file. Use Glob to resolve the absolute path — search for `**/jetpack-compose-audit/scripts/compose-reports.init.gradle` under `~/.claude/`. If you cannot resolve the path, fall back to writing the script to `<target>/.compose-audit-reports.init.gradle` and delete it after the run.
 
 2. **Check for a Gradle wrapper** in the target: `test -x <target>/gradlew`. If missing, skip to the fallback in step 6.
 
