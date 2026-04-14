@@ -1,0 +1,21 @@
+{
+  "name": "jetpack-compose-audit",
+  "description": "Strict, evidence-based audit for Jetpack Compose repos. Scores performance, state management, side effects, and API quality 0-10 with measured compiler-report ceilings, official citations, and actionable fixes.",
+  "version": "1.0.0",
+  "author": {
+    "name": "hamen"
+  },
+  "license": "MIT",
+  "keywords": [
+    "jetpack-compose",
+    "android",
+    "audit",
+    "performance",
+    "code-quality",
+    "compose-compiler"
+  ],
+  "skills": [
+    "./skills/jetpack-compose-audit"
+  ],
+  "repository": "https://github.com/hamen/compose_skill"
+}
